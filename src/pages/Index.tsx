@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Icon from "@/components/ui/icon";
+import AudioPlayer, { type Track } from "@/components/AudioPlayer";
 
-const DEMO_TRACKS = [
+const DEMO_TRACKS: Track[] = [
   { title: "Neon Dreams", author: "AI Studio", genre: "Synthwave", duration: "3:42", plays: "12.4K" },
   { title: "Midnight Flow", author: "beatmaker_pro", genre: "Lo-Fi", duration: "2:58", plays: "8.7K" },
   { title: "Electric Pulse", author: "SoundForge AI", genre: "Electronic", duration: "4:15", plays: "23.1K" },
@@ -26,6 +27,8 @@ const Equalizer = () => (
 
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({});
+  const [currentTrackIndex, setCurrentTrackIndex] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const observers: Record<string, IntersectionObserver> = {};
@@ -57,8 +60,39 @@ const Index = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleTrackClick = (index: number) => {
+    if (currentTrackIndex === index) {
+      setIsPlaying(!isPlaying);
+    } else {
+      setCurrentTrackIndex(index);
+      setIsPlaying(true);
+    }
+  };
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleNext = useCallback(() => {
+    setCurrentTrackIndex((prev) => {
+      if (prev === null) return 0;
+      return (prev + 1) % DEMO_TRACKS.length;
+    });
+    setIsPlaying(true);
+  }, []);
+
+  const handlePrev = () => {
+    setCurrentTrackIndex((prev) => {
+      if (prev === null) return 0;
+      return prev === 0 ? DEMO_TRACKS.length - 1 : prev - 1;
+    });
+    setIsPlaying(true);
+  };
+
+  const currentTrack = currentTrackIndex !== null ? DEMO_TRACKS[currentTrackIndex] : null;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${currentTrack ? "pb-20" : ""}`}>
       <header className="fixed top-0 w-full bg-background/80 backdrop-blur-2xl border-b border-accent/20 z-50">
         <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -240,30 +274,46 @@ const Index = () => {
             className={`text-center mb-20 transition-all duration-1000 ${visibleSections["tracks"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             <span className="text-xs font-medium tracking-widest text-accent/60 uppercase">Витрина</span>
-            <h2 className="text-5xl lg:text-6xl font-display font-black tracking-tighter mt-4 mb-6">
+            <h2 className="text-5xl lg:text-6xl font-display font-black tracking-tighter mt-4 mb-4">
               <span className="bg-gradient-to-r from-white via-white to-accent/40 bg-clip-text text-transparent">
                 Треки, созданные на платформе
               </span>
             </h2>
+            <p className="text-muted-foreground font-light">Нажмите на трек, чтобы послушать демо</p>
           </div>
 
           <div className="grid gap-3">
             {DEMO_TRACKS.map((track, i) => {
               const isVisible = visibleSections["tracks"];
+              const isActive = currentTrackIndex === i;
+              const isTrackPlaying = isActive && isPlaying;
               return (
                 <div
                   key={i}
-                  className={`group flex items-center gap-4 p-5 border border-accent/10 hover:border-accent/30 rounded-xl bg-card/30 hover:bg-card/60 transition-all duration-500 cursor-pointer ${
-                    isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
-                  }`}
+                  onClick={() => handleTrackClick(i)}
+                  className={`group flex items-center gap-4 p-5 border rounded-xl transition-all duration-500 cursor-pointer ${
+                    isActive
+                      ? "border-accent/40 bg-accent/10"
+                      : "border-accent/10 hover:border-accent/30 bg-card/30 hover:bg-card/60"
+                  } ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}
                   style={{ transitionDelay: `${i * 80}ms` }}
                 >
-                  <div className="w-12 h-12 rounded-lg bg-accent/20 border border-accent/20 flex items-center justify-center group-hover:bg-accent/30 transition-colors flex-shrink-0">
-                    <Icon name="Play" size={18} className="text-accent ml-0.5" />
+                  <div className={`w-12 h-12 rounded-lg border flex items-center justify-center flex-shrink-0 transition-colors ${
+                    isActive ? "bg-accent border-accent/40" : "bg-accent/20 border-accent/20 group-hover:bg-accent/30"
+                  }`}>
+                    {isTrackPlaying ? (
+                      <div className="flex items-end gap-[2px] h-4">
+                        {[0, 1, 2].map((b) => (
+                          <div key={b} className="eq-bar w-1 rounded-full bg-white" style={{ animationDelay: `${b * 0.15}s`, animationDuration: "0.6s" }} />
+                        ))}
+                      </div>
+                    ) : (
+                      <Icon name={isActive ? "Pause" : "Play"} size={18} className={isActive ? "text-white" : "text-accent"} />
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-white truncate">{track.title}</h4>
-                    <p className="text-sm text-muted-foreground truncate">{track.author}</p>
+                    <h4 className={`font-semibold text-sm truncate ${isActive ? "text-accent" : "text-white"}`}>{track.title}</h4>
+                    <p className="text-xs text-muted-foreground truncate">{track.author}</p>
                   </div>
                   <span className="hidden sm:inline-block px-3 py-1 text-xs rounded-full bg-accent/10 text-accent border border-accent/20">
                     {track.genre}
@@ -424,7 +474,7 @@ const Index = () => {
         </div>
       </section>
 
-      <footer className="border-t border-accent/10 py-12 px-6 bg-background/50">
+      <footer className={`border-t border-accent/10 py-12 px-6 bg-background/50 ${currentTrack ? "mb-16" : ""}`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Icon name="Music" size={18} className="text-accent" />
@@ -446,6 +496,14 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <AudioPlayer
+        track={currentTrack}
+        isPlaying={isPlaying}
+        onPlayPause={handlePlayPause}
+        onNext={handleNext}
+        onPrev={handlePrev}
+      />
     </div>
   );
 };
