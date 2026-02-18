@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Zap, Lock, TrendingUp, Cpu, Settings, Cloud, ArrowRight } from "lucide-react";
+import Icon from "@/components/ui/icon";
 
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const observers: Record<string, IntersectionObserver> = {};
-
     const sectionIds = ["hero", "features", "how", "pricing", "cta"];
 
     sectionIds.forEach((id) => {
@@ -33,12 +32,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="fixed top-0 w-full bg-background/80 backdrop-blur-2xl border-b border-accent/20 z-50">
         <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            <Icon name="Music" size={28} className="text-accent" />
             <div className="font-display font-bold text-2xl tracking-tighter bg-gradient-to-r from-white via-accent to-accent/80 bg-clip-text text-transparent">
-              AgentForge
+              SoundForge
             </div>
           </div>
           <nav className="hidden md:flex gap-10 text-sm font-medium">
@@ -56,21 +55,19 @@ const Index = () => {
             <button className="px-5 py-2.5 text-sm font-medium border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all">
               Войти
             </button>
-            <button className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-black rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold">
-              Попробовать
+            <button className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-white rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold">
+              Начать создавать
             </button>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
       <section id="hero" className="relative pt-32 pb-32 px-6 min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden">
-          <img src="/images/black-hole-gif.gif" alt="Black hole animation" className="w-auto h-3/4 object-contain" />
+          <img src="/images/black-hole-gif.gif" alt="Sound waves animation" className="w-auto h-3/4 object-contain" />
         </div>
         <div className="absolute inset-0 bg-black/70" />
 
-        {/* Content overlay */}
         <div className="relative z-10 max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div
@@ -78,41 +75,41 @@ const Index = () => {
             >
               <div className="mb-8 inline-block">
                 <span className="text-xs font-medium tracking-widest text-accent/80 uppercase">
-                  AI-инфраструктура нового поколения
+                  AI-музыкальная платформа нового поколения
                 </span>
               </div>
               <h1 className="text-6xl lg:text-7xl font-display font-black leading-tight mb-8 tracking-tighter">
                 <span className="bg-gradient-to-br from-white via-white to-accent/40 bg-clip-text text-transparent">
-                  Создавай. Запускай.
+                  Создавай. Слушай.
                 </span>
                 <br />
-                <span className="text-accent">Автоматизируй.</span>
+                <span className="text-accent">Делись музыкой.</span>
               </h1>
               <p className="text-xl text-white/80 leading-relaxed mb-10 max-w-xl font-light">
-                AgentForge позволяет создавать, разворачивать и масштабировать умных AI-агентов.
-                От идеи до продакшена за минуты, а не месяцы.
+                SoundForge — платформа для создания музыки и клипов с AI-инструментами. 
+                Загружай треки, редактируй в мощном редакторе и делись ссылкой с миром.
               </p>
               <div className="flex gap-4 mb-12 flex-col sm:flex-row">
-                <button className="group px-8 py-4 bg-gradient-to-r from-accent to-accent/90 text-black rounded-full hover:shadow-2xl hover:shadow-accent/50 transition-all font-semibold text-lg flex items-center gap-3 justify-center">
-                  Запустить сейчас
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
+                <button className="group px-8 py-4 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/50 transition-all font-semibold text-lg flex items-center gap-3 justify-center">
+                  Создать трек
+                  <Icon name="ArrowRight" size={20} className="group-hover:translate-x-1 transition" />
                 </button>
                 <button className="px-8 py-4 border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all font-medium text-lg text-white">
-                  Смотреть демо
+                  Слушать примеры
                 </button>
               </div>
               <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/10">
                 <div>
-                  <div className="text-2xl font-bold text-accent mb-2">10 000+</div>
-                  <p className="text-sm text-white/60">Активных агентов</p>
+                  <div className="text-2xl font-bold text-accent mb-2">50 000+</div>
+                  <p className="text-sm text-white/60">Треков создано</p>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-white mb-2">500 000+</div>
-                  <p className="text-sm text-white/60">Выполненных задач</p>
+                  <div className="text-2xl font-bold text-white mb-2">12 000+</div>
+                  <p className="text-sm text-white/60">Музыкантов</p>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-accent mb-2">99.99%</div>
-                  <p className="text-sm text-white/60">Аптайм</p>
+                  <div className="text-2xl font-bold text-accent mb-2">3 000+</div>
+                  <p className="text-sm text-white/60">Клипов</p>
                 </div>
               </div>
             </div>
@@ -121,17 +118,20 @@ const Index = () => {
               className={`relative h-96 lg:h-[550px] transition-all duration-1000 flex items-center justify-center ${visibleSections["hero"] ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-transparent to-transparent rounded-3xl blur-3xl animate-pulse" />
-              <img
-                src="/omnius-logo.png"
-                alt="Omnius Agent"
-                className="w-full max-w-sm lg:max-w-md drop-shadow-2xl animate-float relative z-10"
-              />
+              <div className="relative z-10 flex flex-col items-center gap-6">
+                <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-accent/40 via-accent/20 to-transparent border border-accent/30 flex items-center justify-center animate-float backdrop-blur-sm">
+                  <div className="w-48 h-48 lg:w-60 lg:h-60 rounded-full bg-gradient-to-tr from-accent/30 to-transparent border border-accent/20 flex items-center justify-center">
+                    <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center animate-glow">
+                      <Icon name="Play" size={48} className="text-accent ml-1" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
       <section id="features" className="py-32 px-6 bg-accent/5">
         <div className="max-w-7xl mx-auto">
           <div
@@ -140,7 +140,7 @@ const Index = () => {
             <span className="text-xs font-medium tracking-widest text-accent/60 uppercase">Возможности</span>
             <h2 className="text-5xl lg:text-6xl font-display font-black tracking-tighter mt-4 mb-6">
               <span className="bg-gradient-to-r from-white via-white to-accent/40 bg-clip-text text-transparent">
-                Суперсилы встроены
+                Всё для музыки в одном месте
               </span>
             </h2>
           </div>
@@ -148,47 +148,46 @@ const Index = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                icon: Zap,
-                title: "Молниеносный деплой",
-                desc: "Развертывание в продакшен одним кликом без настройки",
+                icon: "Wand2",
+                title: "AI-генерация музыки",
+                desc: "Создавайте уникальные треки с помощью искусственного интеллекта — задайте стиль, настроение и темп",
               },
               {
-                icon: Cpu,
-                title: "Умный AI-движок",
-                desc: "Продвинутые возможности рассуждения, которые учатся и адаптируются",
+                icon: "Sliders",
+                title: "Мощный редактор",
+                desc: "Профессиональные инструменты для редактирования, сведения и мастеринга треков прямо в браузере",
               },
               {
-                icon: TrendingUp,
-                title: "Автомасштабирование",
-                desc: "Автоматическое масштабирование ресурсов на основе нагрузки",
+                icon: "Video",
+                title: "Создание клипов",
+                desc: "Генерируйте музыкальные клипы с AI или загружайте своё видео и синхронизируйте с треком",
               },
               {
-                icon: Lock,
-                title: "Корпоративная безопасность",
-                desc: "Банковское шифрование и соответствие SOC2, GDPR, HIPAA",
+                icon: "Share2",
+                title: "Мгновенный шаринг",
+                desc: "Делитесь треками по ссылке — слушатели смогут воспроизвести музыку без регистрации",
               },
               {
-                icon: Settings,
-                title: "Гибкие сценарии",
-                desc: "Создавайте сложные цепочки автоматизации в визуальном редакторе",
+                icon: "Upload",
+                title: "Загрузка треков",
+                desc: "Загружайте свою музыку в любом формате — MP3, WAV, FLAC, OGG и другие",
               },
               {
-                icon: Cloud,
-                title: "Мультиоблачность",
-                desc: "Разворачивайте где угодно - AWS, Azure, GCP или своя инфраструктура",
+                icon: "Sparkles",
+                title: "AI-инструменты",
+                desc: "Автоматическое разделение на стемы, удаление вокала, улучшение качества и ремастеринг",
               },
             ].map((item, i) => {
-              const Icon = item.icon;
               const isVisible = visibleSections["features"];
               return (
                 <div
                   key={i}
-                  className={`group p-8 border border-accent/10 hover:border-accent/40 rounded-2xl bg-card/50 hover:bg-card/80 transition-all duration-500 cursor-pointer backdrop-blur-sm ${
+                  className={`group p-8 border border-accent/10 hover:border-accent/40 rounded-2xl bg-card/50 hover:bg-card/80 transition-all duration-500 hover:-translate-y-1 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                   }`}
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
-                  <Icon className="w-10 h-10 mb-6 text-accent group-hover:scale-110 transition-transform" />
+                  <Icon name={item.icon} size={40} className="mb-6 text-accent group-hover:scale-110 transition-transform" />
                   <h3 className="font-display font-bold text-xl mb-3">{item.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>
@@ -198,7 +197,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* How It Works */}
       <section id="how" className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <div
@@ -207,17 +205,17 @@ const Index = () => {
             <span className="text-xs font-medium tracking-widest text-accent/60 uppercase">Процесс</span>
             <h2 className="text-5xl lg:text-6xl font-display font-black tracking-tighter mt-4">
               <span className="bg-gradient-to-r from-white via-white to-accent/40 bg-clip-text text-transparent">
-                От нуля до героя
+                От идеи до хита
               </span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { num: "01", title: "Проектируй", desc: "Определите возможности агента в интуитивном конструкторе" },
-              { num: "02", title: "Обучай", desc: "Загрузите данные и примеры для настройки поведения" },
-              { num: "03", title: "Запускай", desc: "Запуск в продакшен одним кликом" },
-              { num: "04", title: "Масштабируй", desc: "Автомасштабирование обрабатывает миллионы запросов" },
+              { num: "01", title: "Создай", desc: "Запишите трек или сгенерируйте с помощью AI, задав жанр и настроение" },
+              { num: "02", title: "Редактируй", desc: "Используйте профессиональный редактор с AI-инструментами для обработки" },
+              { num: "03", title: "Визуализируй", desc: "Создайте клип — с помощью AI или загрузите своё видео" },
+              { num: "04", title: "Делись", desc: "Отправьте ссылку — ваш трек доступен всему миру за секунды" },
             ].map((step, i) => {
               const isVisible = visibleSections["how"];
               return (
@@ -247,7 +245,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Pricing */}
       <section id="pricing" className="py-32 px-6 bg-accent/5">
         <div className="max-w-5xl mx-auto">
           <div
@@ -256,7 +253,7 @@ const Index = () => {
             <span className="text-xs font-medium tracking-widest text-accent/60 uppercase">Тарифы</span>
             <h2 className="text-5xl lg:text-6xl font-display font-black tracking-tighter mt-4">
               <span className="bg-gradient-to-r from-white via-white to-accent/40 bg-clip-text text-transparent">
-                Простые цены
+                Начните бесплатно
               </span>
             </h2>
           </div>
@@ -264,15 +261,15 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
-                name: "Стартовый",
-                price: "4 900 \u20bd/\u043c\u0435\u0441",
-                features: ["До 10 агентов", "100 000 запросов/месяц", "Поддержка сообщества", "Базовая аналитика"],
+                name: "Бесплатный",
+                price: "0 ₽",
+                features: ["5 треков в месяц", "Базовый AI-редактор", "Шаринг по ссылке", "MP3 экспорт"],
                 highlight: false,
               },
               {
-                name: "Корпоративный",
-                price: "По запросу",
-                features: ["Безлимитные агенты", "Безлимитные запросы", "Поддержка 24/7", "Индивидуальные интеграции"],
+                name: "Про",
+                price: "990 ₽/мес",
+                features: ["Безлимитные треки", "Все AI-инструменты", "Создание клипов", "WAV/FLAC экспорт", "Приоритетная поддержка"],
                 highlight: true,
               },
             ].map((plan, i) => {
@@ -299,7 +296,7 @@ const Index = () => {
                       <ul className="space-y-4 mb-10">
                         {plan.features.map((f, j) => (
                           <li key={j} className="flex gap-3 text-sm items-start">
-                            <ArrowRight className="w-4 h-4 text-accent flex-shrink-0 mt-1" />
+                            <Icon name="Check" size={16} className="text-accent flex-shrink-0 mt-1" />
                             <span className="text-foreground/80">{f}</span>
                           </li>
                         ))}
@@ -308,11 +305,11 @@ const Index = () => {
                     <button
                       className={`w-full px-6 py-4 rounded-xl font-semibold transition-all ${
                         plan.highlight
-                          ? "bg-gradient-to-r from-accent to-accent/80 text-black hover:shadow-xl hover:shadow-accent/40"
+                          ? "bg-gradient-to-r from-accent to-accent/80 text-white hover:shadow-xl hover:shadow-accent/40"
                           : "border border-accent/20 hover:border-accent/40 hover:bg-accent/5"
                       }`}
                     >
-                      {plan.highlight ? "Связаться с нами" : "Попробовать бесплатно"}
+                      {plan.highlight ? "Попробовать Про" : "Начать бесплатно"}
                     </button>
                   </div>
                 </div>
@@ -322,30 +319,31 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section id="cta" className="py-32 px-6">
         <div
           className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${visibleSections["cta"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           <h2 className="text-5xl lg:text-6xl font-display font-black tracking-tighter mb-6">
             <span className="bg-gradient-to-r from-white via-white to-accent/40 bg-clip-text text-transparent">
-              Готовы создавать?
+              Готовы создавать музыку?
             </span>
           </h2>
           <p className="text-xl text-muted-foreground mb-12 font-light max-w-2xl mx-auto">
-            Присоединяйтесь к тысячам разработчиков, которые строят будущее с AgentForge.
+            Присоединяйтесь к тысячам музыкантов, которые уже создают хиты с SoundForge.
           </p>
-          <button className="group px-10 py-5 bg-gradient-to-r from-accent to-accent/90 text-black rounded-full hover:shadow-2xl hover:shadow-accent/40 transition-all font-bold text-lg flex items-center gap-3 mx-auto">
-            Начать бесплатно
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
+          <button className="group px-10 py-5 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/40 transition-all font-bold text-lg flex items-center gap-3 mx-auto">
+            Создать первый трек
+            <Icon name="ArrowRight" size={20} className="group-hover:translate-x-1 transition" />
           </button>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="border-t border-accent/10 py-12 px-6 bg-background/50">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted-foreground">
-          <p>© 2025 AgentForge — Создавайте умных агентов</p>
+          <div className="flex items-center gap-2">
+            <Icon name="Music" size={18} className="text-accent" />
+            <p>© 2025 SoundForge — Создавайте музыку будущего</p>
+          </div>
           <div className="flex gap-8">
             <a href="#" className="hover:text-white transition-colors">
               Конфиденциальность
@@ -354,7 +352,7 @@ const Index = () => {
               Условия
             </a>
             <a href="#" className="hover:text-white transition-colors">
-              Документация
+              Поддержка
             </a>
             <a href="#" className="hover:text-white transition-colors">
               Контакты
