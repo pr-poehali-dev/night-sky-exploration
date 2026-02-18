@@ -1,12 +1,35 @@
 import { useEffect, useState } from "react";
 import Icon from "@/components/ui/icon";
 
+const DEMO_TRACKS = [
+  { title: "Neon Dreams", author: "AI Studio", genre: "Synthwave", duration: "3:42", plays: "12.4K" },
+  { title: "Midnight Flow", author: "beatmaker_pro", genre: "Lo-Fi", duration: "2:58", plays: "8.7K" },
+  { title: "Electric Pulse", author: "SoundForge AI", genre: "Electronic", duration: "4:15", plays: "23.1K" },
+  { title: "Velvet Sky", author: "marina_music", genre: "Ambient", duration: "5:03", plays: "6.2K" },
+  { title: "Bass Theory", author: "AI Studio", genre: "Drum & Bass", duration: "3:27", plays: "15.8K" },
+  { title: "Crystal Rain", author: "dj_nova", genre: "Chillstep", duration: "4:48", plays: "9.5K" },
+];
+
+const EQ_BARS = 24;
+
+const Equalizer = () => (
+  <div className="flex items-end gap-[3px] h-40 lg:h-52">
+    {Array.from({ length: EQ_BARS }).map((_, i) => (
+      <div
+        key={i}
+        className="eq-bar w-2 lg:w-3 rounded-full bg-gradient-to-t from-accent/60 via-accent to-accent/40"
+        style={{ animationDelay: `${i * 0.08}s`, animationDuration: `${0.8 + Math.random() * 0.8}s` }}
+      />
+    ))}
+  </div>
+);
+
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const observers: Record<string, IntersectionObserver> = {};
-    const sectionIds = ["hero", "features", "how", "pricing", "cta"];
+    const sectionIds = ["hero", "features", "tracks", "how", "pricing", "cta"];
 
     sectionIds.forEach((id) => {
       const element = document.getElementById(id);
@@ -30,6 +53,10 @@ const Index = () => {
     };
   }, []);
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="fixed top-0 w-full bg-background/80 backdrop-blur-2xl border-b border-accent/20 z-50">
@@ -41,21 +68,27 @@ const Index = () => {
             </div>
           </div>
           <nav className="hidden md:flex gap-10 text-sm font-medium">
-            <a href="#features" className="text-muted-foreground hover:text-white transition-colors">
+            <button onClick={() => scrollTo("features")} className="text-muted-foreground hover:text-white transition-colors">
               Возможности
-            </a>
-            <a href="#how" className="text-muted-foreground hover:text-white transition-colors">
+            </button>
+            <button onClick={() => scrollTo("tracks")} className="text-muted-foreground hover:text-white transition-colors">
+              Треки
+            </button>
+            <button onClick={() => scrollTo("how")} className="text-muted-foreground hover:text-white transition-colors">
               Как это работает
-            </a>
-            <a href="#pricing" className="text-muted-foreground hover:text-white transition-colors">
+            </button>
+            <button onClick={() => scrollTo("pricing")} className="text-muted-foreground hover:text-white transition-colors">
               Тарифы
-            </a>
+            </button>
           </nav>
           <div className="flex gap-3">
             <button className="px-5 py-2.5 text-sm font-medium border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all">
               Войти
             </button>
-            <button className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-white rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold">
+            <button
+              onClick={() => scrollTo("pricing")}
+              className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-white rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold"
+            >
               Начать создавать
             </button>
           </div>
@@ -63,10 +96,14 @@ const Index = () => {
       </header>
 
       <section id="hero" className="relative pt-32 pb-32 px-6 min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden">
-          <img src="/images/black-hole-gif.gif" alt="Sound waves animation" className="w-auto h-3/4 object-contain" />
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <img
+            src="https://cdn.poehali.dev/projects/fee3d367-2931-45cb-9ac9-3ce92fa841cc/files/75ad0cd9-cf45-4993-b275-7a7f6c2f96ba.jpg"
+            alt="Music visualization"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-black/75" />
 
         <div className="relative z-10 max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -86,15 +123,21 @@ const Index = () => {
                 <span className="text-accent">Делись музыкой.</span>
               </h1>
               <p className="text-xl text-white/80 leading-relaxed mb-10 max-w-xl font-light">
-                SoundForge — платформа для создания музыки и клипов с AI-инструментами. 
+                SoundForge — платформа для создания музыки и клипов с AI-инструментами.
                 Загружай треки, редактируй в мощном редакторе и делись ссылкой с миром.
               </p>
               <div className="flex gap-4 mb-12 flex-col sm:flex-row">
-                <button className="group px-8 py-4 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/50 transition-all font-semibold text-lg flex items-center gap-3 justify-center">
+                <button
+                  onClick={() => scrollTo("pricing")}
+                  className="group px-8 py-4 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/50 transition-all font-semibold text-lg flex items-center gap-3 justify-center"
+                >
                   Создать трек
                   <Icon name="ArrowRight" size={20} className="group-hover:translate-x-1 transition" />
                 </button>
-                <button className="px-8 py-4 border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all font-medium text-lg text-white">
+                <button
+                  onClick={() => scrollTo("tracks")}
+                  className="px-8 py-4 border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all font-medium text-lg text-white"
+                >
                   Слушать примеры
                 </button>
               </div>
@@ -117,15 +160,9 @@ const Index = () => {
             <div
               className={`relative h-96 lg:h-[550px] transition-all duration-1000 flex items-center justify-center ${visibleSections["hero"] ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-transparent to-transparent rounded-3xl blur-3xl animate-pulse" />
-              <div className="relative z-10 flex flex-col items-center gap-6">
-                <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-accent/40 via-accent/20 to-transparent border border-accent/30 flex items-center justify-center animate-float backdrop-blur-sm">
-                  <div className="w-48 h-48 lg:w-60 lg:h-60 rounded-full bg-gradient-to-tr from-accent/30 to-transparent border border-accent/20 flex items-center justify-center">
-                    <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center animate-glow">
-                      <Icon name="Play" size={48} className="text-accent ml-1" />
-                    </div>
-                  </div>
-                </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-transparent to-transparent rounded-3xl blur-3xl animate-pulse" />
+              <div className="relative z-10">
+                <Equalizer />
               </div>
             </div>
           </div>
@@ -197,7 +234,53 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="how" className="py-32 px-6">
+      <section id="tracks" className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div
+            className={`text-center mb-20 transition-all duration-1000 ${visibleSections["tracks"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            <span className="text-xs font-medium tracking-widest text-accent/60 uppercase">Витрина</span>
+            <h2 className="text-5xl lg:text-6xl font-display font-black tracking-tighter mt-4 mb-6">
+              <span className="bg-gradient-to-r from-white via-white to-accent/40 bg-clip-text text-transparent">
+                Треки, созданные на платформе
+              </span>
+            </h2>
+          </div>
+
+          <div className="grid gap-3">
+            {DEMO_TRACKS.map((track, i) => {
+              const isVisible = visibleSections["tracks"];
+              return (
+                <div
+                  key={i}
+                  className={`group flex items-center gap-4 p-5 border border-accent/10 hover:border-accent/30 rounded-xl bg-card/30 hover:bg-card/60 transition-all duration-500 cursor-pointer ${
+                    isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+                  }`}
+                  style={{ transitionDelay: `${i * 80}ms` }}
+                >
+                  <div className="w-12 h-12 rounded-lg bg-accent/20 border border-accent/20 flex items-center justify-center group-hover:bg-accent/30 transition-colors flex-shrink-0">
+                    <Icon name="Play" size={18} className="text-accent ml-0.5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-semibold text-white truncate">{track.title}</h4>
+                    <p className="text-sm text-muted-foreground truncate">{track.author}</p>
+                  </div>
+                  <span className="hidden sm:inline-block px-3 py-1 text-xs rounded-full bg-accent/10 text-accent border border-accent/20">
+                    {track.genre}
+                  </span>
+                  <div className="hidden md:flex items-center gap-1 text-sm text-muted-foreground">
+                    <Icon name="Headphones" size={14} />
+                    <span>{track.plays}</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground tabular-nums">{track.duration}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="how" className="py-32 px-6 bg-accent/5">
         <div className="max-w-7xl mx-auto">
           <div
             className={`text-center mb-20 transition-all duration-1000 ${visibleSections["how"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
@@ -245,7 +328,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="pricing" className="py-32 px-6 bg-accent/5">
+      <section id="pricing" className="py-32 px-6">
         <div className="max-w-5xl mx-auto">
           <div
             className={`text-center mb-20 transition-all duration-1000 ${visibleSections["pricing"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
@@ -319,7 +402,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="cta" className="py-32 px-6">
+      <section id="cta" className="py-32 px-6 bg-accent/5">
         <div
           className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${visibleSections["cta"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
@@ -331,7 +414,10 @@ const Index = () => {
           <p className="text-xl text-muted-foreground mb-12 font-light max-w-2xl mx-auto">
             Присоединяйтесь к тысячам музыкантов, которые уже создают хиты с SoundForge.
           </p>
-          <button className="group px-10 py-5 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/40 transition-all font-bold text-lg flex items-center gap-3 mx-auto">
+          <button
+            onClick={() => scrollTo("pricing")}
+            className="group px-10 py-5 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/40 transition-all font-bold text-lg flex items-center gap-3 mx-auto"
+          >
             Создать первый трек
             <Icon name="ArrowRight" size={20} className="group-hover:translate-x-1 transition" />
           </button>

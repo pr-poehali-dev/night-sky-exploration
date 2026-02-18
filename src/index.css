@@ -143,4 +143,24 @@
   .animate-glow {
     animation: glow 3s ease-in-out infinite;
   }
+
+  @keyframes eq-bar {
+    0%,
+    100% {
+      height: 20%;
+    }
+    25% {
+      height: 80%;
+    }
+    50% {
+      height: 40%;
+    }
+    75% {
+      height: 90%;
+    }
+  }
+
+  .eq-bar {
+    animation: eq-bar 1.2s ease-in-out infinite;
+  }
 }
